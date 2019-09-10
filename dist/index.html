@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS Snake</title>
+    <style>
+        #canvas {
+            border: 2px solid rgba(0, 0, 0, .7);
+            background: rgba(247, 247, 247, .7);
+            width: 100%;
+            height: 100%;
+        }
+        #snake,
+        #target {
+            position: absolute;
+            left: 2px;
+            top: 2px;
+        }
+        .wrap {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+        .hide {
+            display: none;
+        }
+        .canvases {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .game-start {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: forestgreen;
+            color: #fff;
+            padding: 20px;
+            cursor: pointer;
+        }
+        .game-over {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #cc0000;
+            color: #fff;
+            padding: 20px;
+            cursor: pointer;
+            display: none;
+        }
+        .game-over.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="toolbar">
+        <div>Score: <span id="score"></span></div>
+    </div>
+    <div class="canvases">
+        <canvas id="canvas"></canvas>
+        <canvas id="snake"></canvas>
+        <canvas id="target"></canvas>
+        <div class="game-start">Start</div>
+        <div class="game-over">Game Over</div>
+    </div>
+</div>
+<script src="./bundle.js"></script>
+</body>
+</html>
