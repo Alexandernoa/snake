@@ -1,4 +1,4 @@
-'use strict';
+import Snake from './snake';
 
 class App {
     constructor () {
@@ -19,15 +19,12 @@ class App {
         this.initSettings();
         this.initEvents();
         this.initCanvas();
-        this.initSnake();
-        this.initTarget();
+        this.snake = new Snake();
         this.initToolbar();
     }
 
     initSettings () {
         this.canvas = document.getElementById('canvas');
-        this.snake = document.getElementById('snake');
-        this.target = document.getElementById('target');
         this.scoreElement = document.getElementById('score');
 
         this.settings = {
@@ -61,18 +58,6 @@ class App {
         }
 
         this.ctx = this.canvas.getContext('2d');
-    }
-
-    initSnake () {
-        this.snake.setAttribute('width', this.settings.canvasWidth + 1 + 'px');
-        this.snake.setAttribute('height', this.settings.canvasHeight + 1 + 'px');
-        this.snakeCtx = this.snake.getContext('2d');
-    }
-
-    initTarget () {
-        this.target.setAttribute('width', this.settings.canvasWidth + 1 + 'px');
-        this.target.setAttribute('height', this.settings.canvasHeight + 1 + 'px');
-        this.targetCtx = this.snake.getContext('2d');
     }
 
     initToolbar () {
@@ -211,19 +196,19 @@ class App {
         const length = this.settings.snake.chunks.length - 1;
         const clearChunk = this.settings.snake.chunks[length];
         const clearSize = this.settings.gridSize + 0.5;
-        this.snakeCtx.clearRect(clearChunk.x - 0.2, clearChunk.y - 0.2, clearSize, clearSize);
+        this.snake.ctx.clearRect(clearChunk.x - 0.2, clearChunk.y - 0.2, clearSize, clearSize);
 
         this.updateChunks();
 
         for (let i = 0; i < this.settings.snake.chunks.length; i++) {
             const chunk = this.settings.snake.chunks[i];
-            this.snakeCtx.fillStyle = this.settings.snake.color;
-            this.snakeCtx.fillRect(chunk.x, chunk.y, this.settings.gridSize, this.settings.gridSize);
+            this.snake.ctx.fillStyle = this.settings.snake.color;
+            this.snake.ctx.fillRect(chunk.x, chunk.y, this.settings.gridSize, this.settings.gridSize);
         }
     }
 
     drawLostChunk () {
-        this.targetCtx.fillStyle = this.settings.lostChunk.color;
+        this.snake.ctx.fillStyle = this.settings.lostChunk.color;
         const size = this.settings.gridSize;
         const position = this.getStartPosition();
         this.settings.lostChunk.position = position;
@@ -236,7 +221,7 @@ class App {
             return this.drawLostChunk();
         }
 
-        this.targetCtx.fillRect(position.x, position.y, size, size);
+        this.snake.ctx.fillRect(position.x, position.y, size, size);
     }
 
     move () {
@@ -246,36 +231,10 @@ class App {
         this.searchLostChunk();
 
         const speed = 1000 / this.settings.snake.speed;
-        console.log('speed', speed)
 
         setTimeout((function() {
             this.settings.raf = window.requestAnimationFrame(this.move.bind(this));
         }).bind(this), speed);
-
-        // let then = Date.now();
-        //
-        // const draw = () => {
-        //     if (this.isGameOver()) return false;
-        //
-        //     const requestId = requestAnimationFrame(draw);
-        //     if (this.settings.snake.speed >= 30) {
-        //         cancelAnimationFrame(requestId);
-        //         return false;
-        //     }
-        //
-        //     const now = Date.now();
-        //     const delta = now - then;
-        //     const interval = Math.floor(1000 / this.settings.snake.speed);
-        //
-        //     if (delta > interval) {
-        //         then = now - Math.floor(delta % interval);
-        //
-        //         this.drawSnake();
-        //         this.searchLostChunk();
-        //     }
-        // };
-        //
-        // draw();
     }
 
     searchLostChunk () {
@@ -288,8 +247,7 @@ class App {
         this.drawLostChunk();
     }
 
-    getRandomDirection () {
-        const directions = ['up', 'down', 'left', 'right'];
+    getRandomDirection () {        const directions = ['up', 'down', 'left', 'right'];
         const index = Math.floor(Math.random() * directions.length);
         this.settings.snake.direction = directions[index]
     }
