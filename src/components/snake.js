@@ -177,7 +177,7 @@ class Snake extends Core {
      * @returns {*}
      */
     drawTarget () {
-        this.targetPosition = this.getStartPosition(1, this.gridSize, this.canvasWidth);
+        this.targetPosition = this.getStartPosition(1);
 
         const duplicatePosition = this.chunks.some(chunk => {
             return chunk.x === this.targetPosition.x && chunk.y === this.targetPosition.y;
@@ -227,10 +227,29 @@ class Snake extends Core {
     }
 
     /**
-     * Initialize events
+     * Initialize events for desktop and mobile devices
      */
     initEvents () {
-        document.addEventListener('keydown', this.keyDownListener.bind(this));
+        this.keyDownHandler = this.keyDownListener.bind(this);
+        document.addEventListener('keydown', this.keyDownHandler);
+
+        if (window.innerWidth) {
+            this.btnLeft = document.querySelector('.btn-left');
+            this.btnLeftHandler = this.goLeft.bind(this);
+            this.btnLeft.addEventListener('click', this.btnLeftHandler);
+
+            this.btnUp = document.querySelector('.btn-up');
+            this.btnUpHandler = this.goUp.bind(this);
+            this.btnUp.addEventListener('click', this.btnUpHandler);
+
+            this.btnRight = document.querySelector('.btn-right');
+            this.btnRightHandler = this.goRight.bind(this);
+            this.btnRight.addEventListener('click', this.btnRightHandler);
+
+            this.btnDown = document.querySelector('.btn-down');
+            this.btnDownHandler = this.goLeft.bind(this);
+            this.btnDown.addEventListener('click', this.btnDownHandler);
+        }
     }
 
     /**
@@ -240,22 +259,55 @@ class Snake extends Core {
      */
     keyDownListener (e) {
         switch (e.which) {
-            case 37:
-                if (this.direction === 'right') return false;
-                this.direction = 'left';
-                break;
-            case 38:
-                if (this.direction === 'down') return false;
-                this.direction = 'up';
-                break;
-            case 39:
-                if (this.direction === 'left') return false;
-                this.direction = 'right';
-                break;
-            case 40:
-                if (this.direction === 'up') return false;
-                this.direction = 'down';
-                break;
+            case 37: return this.goLeft();
+            case 38: return this.goUp();
+            case 39: return this.goRight();
+            case 40: return this.goDown();
+        }
+    }
+
+    /**
+     * Changing the direction to left
+     */
+    goLeft () {
+        if (this.direction === 'right') return false;
+        this.direction = 'left';
+    }
+
+    /**
+     * Changing the direction to down
+     */
+    goUp () {
+        if (this.direction === 'down') return false;
+        this.direction = 'up';
+    }
+
+    /**
+     * Changing the direction to left
+     */
+    goRight () {
+        if (this.direction === 'left') return false;
+        this.direction = 'right';
+    }
+
+    /**
+     * Changing the direction to up
+     */
+    goDown () {
+        if (this.direction === 'up') return false;
+        this.direction = 'down';
+    }
+
+    /**
+     * Removing all event listeners
+     */
+    removeEventListeners () {
+        document.removeEventListener('keydown', this.keyDownHandler);
+        if (window.innerWidth) {
+            this.btnLeft.removeEventListener('click', this.btnLeftHandler);
+            this.btnUp.removeEventListener('click', this.btnUpHandler);
+            this.btnRight.removeEventListener('click', this.btnRightHandler);
+            this.btnDown.removeEventListener('click', this.btnDownHandler);
         }
     }
 }

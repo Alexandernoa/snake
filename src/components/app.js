@@ -66,7 +66,7 @@ class App extends Core {
      */
     wasted () {
         document.querySelector('.game-over').classList.add("active");
-        document.removeEventListener('keydown', this.snake.keyDownListener);
+        this.snake.removeEventListeners();
         window.cancelAnimationFrame(this.raf);
     }
 }

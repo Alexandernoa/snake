@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JS Snake By Alex&Alex</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <title>JS Snake by Alex & Alex</title>
+    <meta charset="windows-1251">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
 <div class="wrap">
+    <div class="title">JSnake</div>
     <div class="toolbar">
         <div>Score: <span id="score">0</span></div>
     </div>
     <div class="canvases">
         <canvas id="canvas"></canvas>
         <canvas id="snake"></canvas>
-        <div class="game-start">Start</div>
-        <div class="game-over">Game Over</div>
+        <div class="edge-btn game-start">Start</div>
+        <div class="edge-btn game-over">Game Over</div>
+    </div>
+    <div class="mobile-btns">
+        <div class="btn btn-up"></div>
+        <div class="btn-inline">
+            <div class="btn btn-left"></div>
+            <div class="btn btn-right"></div>
+        </div>
+        <div class="btn btn-down"></div>
     </div>
 </div>
 <script src="./bundle.js"></script>
